@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block titulo %}{{ producto.personaje }}{% endblock %}
+{% block contenido %}
+    <h2>{{ producto.personaje }}</h2>
+    <h4>Comercialmente: {{ producto.nombre_comercial }}</h4>
+    <h4>Precio: S/ {{ producto.precio|floatformat:2 }}</h4>
+{% endblock %}
