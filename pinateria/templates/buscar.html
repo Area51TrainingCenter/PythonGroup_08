@@ -9,7 +9,7 @@
     <h1>Resultados</h1>
     <ul>
         {% for producto in object_list %}
-            <li>{{ producto.personaje }}</li>
+            <li><a href="{% url 'detalle' producto.pk %}">{{ producto.personaje }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}

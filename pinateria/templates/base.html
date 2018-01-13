@@ -14,7 +14,22 @@
     <ul>
         <li><a href="{% url 'portada' %}">Home</a></li>
         <li><a href="{% url 'buscar' %}">Buscar</a></li>
+        {% if user.is_authenticated %}
+            <li>{{ user.username }} (perfil)</li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+            <li>Login</li>
+            <li><a href="{% url 'registro' %}">Registro</a></li>
+        {% endif %}
     </ul>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
     {% block contenido %}{% endblock %}
 

@@ -1,10 +1,18 @@
+from django.contrib.auth import login
+from django.contrib import messages
+from django.contrib.auth.views import LogoutView
 from django.db.models import Q
-from django.http import HttpResponse
-from django.views.generic import TemplateView, ListView
-from django.views import View
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, ListView, FormView
 
 from productos.models import Producto
+from usuarios.models import PerfilUsuario
+from website.forms import RegistroForm
 
+# from django.http import HttpResponse
+# from django.views import View
+#
 # class Portada(View):
 #     def get(self, request):
 #         return HttpResponse('Hola Mundo!')
@@ -36,3 +44,33 @@ class Buscar(ListView):
             Q(descripcion__iregex=termino)
         )
         return queryset
+
+
+class Registro(FormView):
+    template_name = 'registro.html'
+    form_class = RegistroForm
+    success_url = reverse_lazy('portada')
+
+    def form_valid(self, form):
+        usuario = form.save(commit=False)
+        usuario.email = form.cleaned_data['email']
+        usuario.save()
+
+        perfil = PerfilUsuario()
+        perfil.usuario = usuario
+        perfil.dni = form.cleaned_data['dni']
+        perfil.save()
+
+        login(self.request, usuario, 'django.contrib.auth.backends.ModelBackend')
+        messages.info(self.request, 'Gracias por registrarte en nuestro sitio!')
+
+        # return super(Registro, self).form_valid(form)
+        return redirect('portada')
+
+
+class Logout(LogoutView):
+    next_page = reverse_lazy('portada')
+
+    def get_next_page(self):
+        messages.info(self.request, 'Gracias por usar nuestro sitio.')
+        return super(Logout, self).get_next_page()

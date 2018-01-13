@@ -1,6 +1,11 @@
 from django.contrib import admin
 
-from productos.models import Producto, Categoria
+from productos.models import Producto, Categoria, ImagenProducto
+
+
+class ImagenProductoInline(admin.TabularInline):
+    model = ImagenProducto
+    extra = 1
 
 
 class ProductoAdmin(admin.ModelAdmin):
@@ -8,6 +13,7 @@ class ProductoAdmin(admin.ModelAdmin):
     list_display_links = list_display
     list_filter = ('precio',)
     search_fields = ('personaje', 'nombre_comercial',)
+    inlines = (ImagenProductoInline,)
 
     def precio_dos_decimales(self, obj):
         return '{:.2f}'.format(obj.precio)
@@ -26,3 +32,5 @@ admin.site.register(Categoria)
 #     pass
 #
 # admin.site.register(User)
+
+admin.site.register(ImagenProducto)

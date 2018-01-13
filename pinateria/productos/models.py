@@ -46,3 +46,21 @@ class Producto(models.Model):
 
     def __str__(self):
         return self.personaje
+
+
+class ImagenProducto(models.Model):
+    producto = models.ForeignKey(
+        Producto,
+        models.CASCADE,
+        blank=False,
+        null=False
+    )
+
+    imagen = models.ImageField(
+        upload_to='productos',
+        blank=False,
+        null=False
+    )
+
+    def __str__(self):
+        return self.producto.personaje
