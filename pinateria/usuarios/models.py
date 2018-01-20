@@ -5,7 +5,8 @@ from django.contrib.auth.models import User
 class PerfilUsuario(models.Model):
     usuario = models.OneToOneField(
         User,
-        models.CASCADE
+        models.CASCADE,
+        related_name='perfil'
     )
 
     dni = models.CharField(

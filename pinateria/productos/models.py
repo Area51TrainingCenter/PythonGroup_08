@@ -53,7 +53,8 @@ class ImagenProducto(models.Model):
         Producto,
         models.CASCADE,
         blank=False,
-        null=False
+        null=False,
+        # related_name='imagenes'
     )
 
     imagen = models.ImageField(
